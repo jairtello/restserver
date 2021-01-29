@@ -11,8 +11,7 @@ let urlDB;
 if (process.env.NODE_ENV === "dev") {
   urlDB = "mongodb://localhost:27017/market";
 } else {
-  urlDB =
-    "mongodb+srv://jair:4fzPhb4fjRvhAzDa@cluster0.wiifn.mongodb.net/market";
+  urlDB = process.env.MONGO_URI;
 }
 
 process.env.URLDB = urlDB;

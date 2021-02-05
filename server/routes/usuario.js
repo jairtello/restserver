@@ -14,12 +14,12 @@ app.get("/usuario", verificaToken, (req, res) => {
   let desde = req.query.desde || 0;
   desde = Number(desde);
 
-  let limite = req.query.limite || 5;
-  limite = Number(limite);
+  // let limite = req.query.limite || 5;
+  // limite = Number(limite);
 
   Usuario.find({ estado: true }, "nombre email role estado")
     .skip(desde)
-    .limit(limite)
+    // .limit(limite)
     .exec((err, usuarios) => {
       if (err) {
         return res.status(400).json({
@@ -40,7 +40,6 @@ app.get("/usuario", verificaToken, (req, res) => {
 
 app.post("/usuario", [verificaToken, verificaAdmin_Role], (req, res) => {
   let body = req.body;
-
   let usuario = new Usuario({
     nombre: body.nombre,
     email: body.email,
@@ -70,7 +69,7 @@ app.put("/usuario/:id", [verificaToken, verificaAdmin_Role], (req, res) => {
   Usuario.findByIdAndUpdate(
     id,
     body,
-    { new: true, runValidators: true },
+    { new: true, runValidators: true, context: "query" },
     (err, usuarioDB) => {
       if (err) {
         return res.status(400).json({
